@@ -1,0 +1,43 @@
+{
+  "name": "strat-sprint-dash",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Altrd Strategy Sprint Console \u2014 six-phase sprint workspace",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "db:push": "bun run scripts/db-push.ts",
+    "verify:report": "bun run scripts/verify-report.ts",
+    "verify:flow": "bun run scripts/verify-flow.ts",
+    "port:unbundle": "node scripts/unbundle.mjs",
+    "port:jsx": "node scripts/dc-to-jsx.mjs 'source/Sprint Console.dc.html' src/components",
+    "port:viewmodel": "node scripts/extract-view-model.mjs 'source/Sprint Console.dc.html' src/features/console/view-model/packs",
+    "port:prompts": "node scripts/extract-prompts.mjs 'source/Sprint Console.dc.html' src/lib/ai/prompts/generated.ts",
+    "port": "bun run port:jsx && bun run port:viewmodel && bun run port:prompts && bun run port:playbook",
+    "port:playbook": "bun run scripts/export-playbook.ts"
+  },
+  "dependencies": {
+    "docx": "^9.7.1",
+    "html-to-image": "^1.11.13",
+    "next": "^16.3.4",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "zustand": "5.0.8"
+  },
+  "devDependencies": {
+    "@types/node": "22.18.1",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "eslint": "9.35.0",
+    "eslint-config-next": "^16.3.4",
+    "playwright-core": "^1.62.1",
+    "typescript": "5.9.2"
+  },
+  "trustedDependencies": [
+    "unrs-resolver"
+  ],
+  "packageManager": "bun@1.4.0"
+}

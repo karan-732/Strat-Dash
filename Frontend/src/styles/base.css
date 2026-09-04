@@ -1,0 +1,274 @@
+/* Base element styles, animations and the global attribute-selector overrides. */
+body{margin:0;overflow:hidden;background:var(--outer);background-image:none;background-attachment:fixed;color:var(--fg);font-family:'Inter',system-ui,-apple-system,sans-serif;font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:none}
+a:hover{color:#B8553E;text-decoration:underline}
+::placeholder{color:var(--fg4);opacity:1}
+button{font:inherit;cursor:pointer;color:inherit;border-radius:8px;transition:transform .12s ease,border-color .13s linear,background-color .13s linear,color .13s linear}
+button:active{transform:scale(.985)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+input,textarea,select{font:inherit;color:inherit;border-radius:8px;transition:border-color .14s linear}
+input:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(210,107,81,.16)}
+textarea{resize:vertical}
+::selection{background:var(--accent);color:#FFFFFF}
+@keyframes pulse{0%,100%{opacity:.35}50%{opacity:1}}
+@keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes ptin{from{opacity:0}to{opacity:1}}
+@keyframes bargrow{from{transform:scaleY(.04)}to{transform:none}}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-thumb{background:var(--card4);border-radius:8px}
+/* one blurred layer per region, not per card - keeps compositing cheap */
+aside{backdrop-filter:blur(14px) saturate(135%);-webkit-backdrop-filter:blur(14px) saturate(135%)}
+div[style*="var(--card)"],div[style*="var(--card0)"],div[style*="var(--panel)"]{border-radius:20px!important}
+div[style*="border:1px"],div[style*="border:2px"]{border-radius:14px!important}
+aside{border-right:none!important;background:transparent!important}
+header{border-bottom:1px solid var(--ln09)!important;background:transparent!important}
+button,input,textarea,select{border-radius:12px!important}
+div[style*="var(--card)"]{background-image:none!important;border-color:rgba(198,192,255,.07)!important;box-shadow:0 1px 2px rgba(0,0,0,.18),0 14px 30px -24px rgba(0,0,0,.6)!important}
+div[style*="var(--card0)"]{background-image:none!important;border-color:rgba(198,192,255,.06)!important}
+
+button[style*="2px solid #D26B51"]{border:1px solid rgba(255,255,255,.18)!important;background-image:linear-gradient(180deg,#D26B51,#D26B51)!important;color:#fff!important;box-shadow:0 1px 0 rgba(255,255,255,.22) inset,0 10px 22px -14px rgba(107,69,238,.75)!important}
+button[style*="1px solid #D26B51"]{border-color:rgba(190,180,255,.32)!important;background-image:linear-gradient(180deg,rgba(255,255,255,.09),rgba(255,255,255,.03))!important}
+button[style*="#D26B51"]{background-image:linear-gradient(180deg,#D26B51,#D26B51)!important;color:#fff!important;box-shadow:0 1px 0 rgba(255,255,255,.28) inset,0 10px 24px -14px rgba(210,107,81,.8)!important}
+input,textarea,select{background-image:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015))!important;border-color:rgba(205,198,255,.14)!important}
+h1,h2,h3{text-wrap:pretty}
+a{transition:color .15s ease}
+::-webkit-scrollbar-thumb:hover{background:rgba(210,107,81,.34)}
+/* ---- light canvas: floating white panels, lavender tint, violet accent ---- */
+body[data-theme="light"]{background-image:radial-gradient(820px 620px at -6% 102%, rgba(210,107,81,.16), transparent 66%),radial-gradient(760px 560px at 104% -6%, rgba(210,107,81,.09), transparent 62%)}
+body[data-theme="light"] aside{backdrop-filter:none;-webkit-backdrop-filter:none}
+body[data-theme="light"] div[style*="var(--card)"]{background-image:none!important;border-color:rgba(40,38,64,.07)!important;box-shadow:0 1px 2px rgba(40,38,80,.04),0 12px 28px -22px rgba(40,38,80,.28)!important}
+body[data-theme="light"] div[style*="var(--card0)"]{background-image:none!important;border-color:rgba(40,38,64,.06)!important}
+body[data-theme="light"] div[style*="var(--card2)"]{background-image:none!important}
+body[data-theme="light"] input,body[data-theme="light"] textarea,body[data-theme="light"] select{background-image:none!important;background-color:#fff!important;border-color:rgba(40,38,64,.1)!important}
+body[data-theme="light"] button[style*="2px solid #D26B51"]{border:1px solid #D26B51!important;background-image:linear-gradient(180deg,#D26B51,#D26B51)!important;color:#fff!important;box-shadow:0 1px 2px rgba(210,107,81,.18),0 10px 22px -14px rgba(210,107,81,.55)!important}
+body[data-theme="light"] button[style*="1px solid #D26B51"]{background-image:none!important;background-color:#FBF3F1!important;border-color:rgba(210,107,81,.28)!important;color:#9E4634!important}
+body[data-theme="light"] button[style*="#D26B51"]{background-image:linear-gradient(180deg,#D26B51,#D26B51)!important;color:#fff!important;box-shadow:0 1px 2px rgba(210,107,81,.2),0 10px 22px -14px rgba(210,107,81,.5)!important}
+body[data-theme="light"] aside button[style*="transparent"]:hover{background:rgba(210,107,81,.08)!important}
+/* pill geometry + sans headings, both themes */
+h1,h2{font-family:'Libre Franklin',system-ui,sans-serif!important;letter-spacing:-.02em!important}
+button[style*="letter-spacing:.13em"],button[style*="letter-spacing:.14em"]{border-radius:999px!important}
+h1,h2,h3{text-wrap:pretty}
+::-webkit-scrollbar-track{background:var(--bg)}
+
+
+/*
+ * The toast stack. The template animated its single box inline; the stack
+ * needs a class instead, because each entry animates in on its own and the
+ * hover affordance belongs with it. `rise` is the template's own keyframe.
+ */
+.toast-item{animation:rise .18s cubic-bezier(.2,.7,.3,1);transition:filter .12s ease,transform .12s ease}
+.toast-item:hover{filter:brightness(1.06)}
+.toast-item:active{transform:translateY(1px)}
+.toast-item:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){
+  .toast-item{animation:none;transition:none}
+  .toast-item:active{transform:none}
+}
+
+/*
+ * The portfolio card's remove control. The card is itself a button that opens
+ * the sprint, so the ✕ is anchored to it and kept quiet until the card is
+ * hovered or something inside it has focus — a destructive control should not
+ * be the loudest thing on a dashboard.
+ */
+.portfolio-card{position:relative}
+/* the float sits outside the card box, so it must not be clipped */
+.portfolio-grid,.portfolio-card{overflow:visible}
+.portfolio-card-remove{opacity:0;transition:opacity .12s ease,color .12s ease,border-color .12s ease}
+.portfolio-card:hover .portfolio-card-remove,
+.portfolio-card:focus-within .portfolio-card-remove{opacity:1}
+.portfolio-card-remove:hover{color:#D26B51;border-color:#D26B51}
+.portfolio-card-remove:focus-visible{opacity:1;outline:2px solid var(--fg);outline-offset:2px}
+@media (hover:none){.portfolio-card-remove{opacity:1}}
+@media (prefers-reduced-motion:reduce){.portfolio-card-remove{transition:none}}
+
+/*
+ * The priority chip on a question row.
+ *
+ * Themed in CSS rather than inline because the accent coral does not carry
+ * enough contrast against the light background: #D26B51 on it measures 2.69:1,
+ * under the 3:1 floor and well under 4.5:1 for text this small. Dark mode is
+ * fine at 4.83:1, so only the light value moves.
+ */
+.q-chip{
+  padding:2px 7px;border:1px solid var(--ln20);border-radius:999px;
+  font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,monospace;
+  font-size:8px;font-weight:700;letter-spacing:.12em;white-space:nowrap;color:var(--fg3)
+}
+.q-chip.is-high{color:#D26B51;border-color:rgba(210,107,81,.42)}
+.q-chip.is-medium{color:var(--fg2)}
+body[data-theme="light"] .q-chip.is-high{color:#A8452C;border-color:rgba(168,69,44,.4)}
+
+/*
+ * Opening one output full screen.
+ *
+ * The card itself is promoted rather than copied: there are fifty-seven card
+ * components and a copy would render the chart dead, so its points would stop
+ * responding — the only reason to want it bigger. A spacer of the same height
+ * holds its place in the column while it is out of flow.
+ */
+/* the card is the positioning context for its own control */
+[data-card]{position:relative}
+.output-zoom-button{
+  position:absolute;top:10px;right:11px;width:22px;height:22px;
+  display:grid;place-items:center;padding:0;
+  border:1px solid var(--ln20);border-radius:6px;background:var(--card0);
+  color:var(--fg3);cursor:pointer;opacity:0;
+  transition:opacity .12s ease,color .12s ease,border-color .12s ease
+}
+/* the glyph: two corners, so it reads as "expand" without a font dependency */
+.output-zoom-button > span{
+  width:9px;height:9px;
+  border-top:1.5px solid currentColor;border-right:1.5px solid currentColor;
+  box-shadow:-3px 3px 0 -1.5px currentColor;
+  transform:rotate(0deg)
+}
+[data-card]:hover .output-zoom-button,
+[data-card]:focus-within .output-zoom-button{opacity:1}
+.output-zoom-button:hover{color:var(--fg);border-color:var(--ln38)}
+.output-zoom-button:focus-visible{opacity:1;outline:2px solid var(--fg);outline-offset:2px}
+@media (hover:none){.output-zoom-button{opacity:1}}
+
+body[data-zoom]{overflow:hidden}
+body[data-zoom]::before{
+  content:'';position:fixed;inset:0;z-index:45;background:var(--scrim);
+  backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px)
+}
+[data-card].is-zoomed{
+  position:fixed!important;inset:22px;z-index:46;margin:0!important;
+  max-width:none;width:auto;overflow:auto;
+  /* room for the close control, so a card's own header text clears it */
+  padding-right:48px!important;
+  box-shadow:0 24px 70px -20px var(--sh95)!important
+}
+[data-card].is-zoomed:focus{outline:none}
+/*
+ * Promoted, the control closes instead of opening — and is pinned to the
+ * viewport rather than the card, which scrolls internally. The card sits at
+ * inset:22px, so this lines up with its top right corner.
+ */
+[data-card].is-zoomed .output-zoom-button{
+  opacity:1;position:fixed;top:33px;right:34px;z-index:47;
+  width:26px;height:26px;background:var(--card);
+  border-color:var(--ln38);color:var(--fg)
+}
+[data-card].is-zoomed .output-zoom-button > span{
+  width:11px;height:0;border-right:0;box-shadow:none;
+  border-top:1.5px solid currentColor;transform:rotate(45deg);position:relative
+}
+[data-card].is-zoomed .output-zoom-button > span::after{
+  content:'';position:absolute;inset:0;
+  border-top:1.5px solid currentColor;transform:rotate(-90deg)
+}
+.output-zoom-spacer{flex:0 0 auto}
+@media (prefers-reduced-motion:reduce){.output-zoom-button{transition:none}}
+
+/*
+ * The "why this is asked" line on a question row.
+ *
+ * A native <details> rather than React state: there is one per question and
+ * nothing else needs to know whether it is open. The marker is drawn as a
+ * caret so it reads the same in both themes and does not depend on a font.
+ */
+.q-why{margin-top:5px}
+.q-why > summary{
+  display:inline-flex;align-items:center;gap:6px;width:fit-content;
+  list-style:none;cursor:pointer;
+  font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,monospace;
+  font-size:8.5px;font-weight:700;letter-spacing:.13em;color:var(--fg4)
+}
+.q-why > summary::-webkit-details-marker{display:none}
+.q-why > summary::before{
+  content:'';width:4px;height:4px;flex:0 0 auto;
+  border-top:1.2px solid currentColor;border-right:1.2px solid currentColor;
+  transform:rotate(45deg);transition:transform .12s ease
+}
+.q-why[open] > summary::before{transform:rotate(135deg)}
+.q-why > summary:hover{color:var(--fg2)}
+.q-why > summary:focus-visible{outline:2px solid var(--fg);outline-offset:3px;border-radius:3px}
+.q-why > div{
+  margin-top:6px;font-size:12px;line-height:1.5;color:var(--fg3);text-wrap:pretty
+}
+
+/*
+ * Questions on their way in — the open engagement is fetched after the
+ * portfolio has painted, and a phase's questions are the pipeline's last
+ * stage. Both used to land on the empty note, which reads as an answer.
+ */
+.q-skel{
+  display:block;border-radius:5px;background:var(--card3);
+  animation:pulse 1.5s ease-in-out infinite
+}
+.q-skel-spinner{
+  width:11px;height:11px;flex:0 0 auto;border-radius:50%;
+  border:1.5px solid var(--ln16);border-top-color:#D26B51;
+  animation:eng-gen-spin .9s linear infinite
+}
+@media (prefers-reduced-motion:reduce){
+  .q-skel,.q-skel-spinner{animation:none}
+  .q-why > summary::before{transition:none}
+}
+
+/*
+ * Phase 1's north star card.
+ *
+ * CURRENT / TARGET / GAP are authored as three equal columns because the
+ * source console filled them with figures. The agent fills them with a figure
+ * and its provenance — "Rs 312 Cr FY24 revenue (client-confirmed)" — and three
+ * columns inside a 232px track wraps that to one word a line. Same card, same
+ * data, read as rows instead: the label keeps its column, the value gets the
+ * width. Overriding here rather than in the component because the component is
+ * regenerated from the source template by scripts/dc-to-jsx.mjs.
+ *
+ * The selectors carry the browser's serialisation of the inline style, not the
+ * component's — `minmax(0,1fr)` reaches the style attribute as
+ * `minmax(0px, 1fr)`, so matching on the authored spelling matches nothing.
+ */
+[data-card="phase1-01"] [style*="minmax(232px, 1fr)"]{
+  grid-auto-columns:minmax(292px,1fr)!important
+}
+[data-card="phase1-01"] [style*="repeat(3, minmax(0px, 1fr))"]{
+  grid-template-columns:minmax(0,1fr)!important;gap:7px!important
+}
+[data-card="phase1-01"] [style*="repeat(3, minmax(0px, 1fr))"] > div{
+  display:grid;grid-template-columns:52px minmax(0,1fr);gap:10px;align-items:baseline
+}
+[data-card="phase1-01"] [style*="repeat(3, minmax(0px, 1fr))"] > div > div + div{
+  margin-top:0!important
+}
+
+/*
+ * The INPUTS tab while its inherited questions are still loading.
+ *
+ * `PhaseInputs` is `<PhaseHandoff/>` followed by one div holding the whole
+ * rest of the tab, so hiding that sibling holds the tab back until the
+ * questions have resolved. Without it the tab painted its own input boxes
+ * first and the questions then resolved above them, pushing them off screen —
+ * the growth has to happen while there is nothing below it to move.
+ */
+[data-handoff="loading"] + div{display:none}
+
+/*
+ * Output cards skip layout and paint until they are scrolled near.
+ *
+ * Switching to OUTPUTS mounts seven cards and ~980 nodes at once — measured at
+ * 85ms of script, 17ms of style recalc and 30ms of layout on a 4x-throttled
+ * CPU, which is a visible hitch on the tab. Only one or two cards are on
+ * screen, so the rest of that layout and paint is work for nothing.
+ *
+ * `auto` on contain-intrinsic-size means the browser remembers each card's
+ * last rendered height rather than trusting a guess, so the scrollbar settles
+ * once a card has been seen instead of jumping every time it is skipped.
+ *
+ * Two things depend on cards being laid out and both cope: `use-plot-labels`
+ * repositions through a ResizeObserver, which fires when a card becomes
+ * visible, and the report capture forces `content-visibility: visible` on
+ * every card for the duration (see report/capture.ts) because an off-screen
+ * card has no layout to rasterise.
+ */
+[data-card]{
+  content-visibility:auto;
+  contain-intrinsic-size:auto 620px
+}
+/* a promoted card is the thing being looked at; never skip it */
+[data-card].is-zoomed{content-visibility:visible}

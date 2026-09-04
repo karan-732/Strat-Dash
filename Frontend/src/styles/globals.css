@@ -1,0 +1,13 @@
+/*
+ * Sprint Console — global stylesheet.
+ * The cascade order below is the same order the original single-file console
+ * declared it in; theme.css and responsive.css must stay last because they
+ * override the earlier blocks.
+ */
+@import './tokens.css';
+@import './base.css';
+@import './console.css';
+@import './output.css';
+@import './theme.css';
+@import './responsive.css';
+@import './hover.css';

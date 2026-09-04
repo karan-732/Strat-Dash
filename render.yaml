@@ -1,0 +1,37 @@
+# Render blueprint for the Python backend.
+# The Next.js console is deployed separately on Vercel (rootDir: Frontend).
+services:
+  - type: web
+    name: strat-sprint-api
+    runtime: python
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.14
+      # Set every value below in the Render dashboard. Never commit them.
+      - key: TURSO_DATABASE_URL
+        sync: false
+      - key: TURSO_AUTH_TOKEN
+        sync: false
+      - key: OPENROUTER_API_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: MODEL
+        value: anthropic/claude-sonnet-5
+      - key: MODEL_FAST
+        value: anthropic/claude-haiku-4.5
+      - key: OPENAI_MODEL
+        value: gpt-5.6-luna
+      - key: OPENAI_REASONING_EFFORT
+        value: low
+      - key: SCRAPE_READER_BASE
+        value: https://r.jina.ai/
+      # The deployed console origin, for CORS. Fill in after the first
+      # Vercel deploy, then redeploy this service.
+      - key: ALLOWED_ORIGINS
+        sync: false

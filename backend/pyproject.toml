@@ -1,0 +1,37 @@
+[project]
+name = "sprint-console-backend"
+version = "0.1.0"
+description = "Altrd Strategy Sprint — phase agents, sprint brain and Turso persistence"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.118",
+    "uvicorn[standard]>=0.37",
+    "httpx>=0.28",
+    "pydantic>=2.11",
+    "pydantic-settings>=2.11",
+    "python-multipart>=0.0.20",
+    "openpyxl>=3.1",
+]
+
+[dependency-groups]
+dev = ["ruff>=0.14", "pytest>=8.4", "pytest-asyncio>=1.2"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.ruff.lint.per-file-ignores]
+# FastAPI declares File()/Form()/Depends() in argument defaults by design.
+"app/api/*.py" = ["B008"]
+# The agents are mostly prompt text and JSON shape literals; wrapping either
+# would change what the model is sent.
+"app/agents/*.py" = ["E501"]
+
+[tool.pytest.ini_options]
+# the app is imported as `app.…` from the backend root, so the root has to be
+# on the path; without this every test module fails to collect
+pythonpath = ["."]
+asyncio_mode = "auto"

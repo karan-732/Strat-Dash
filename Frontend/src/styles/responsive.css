@@ -1,0 +1,74 @@
+/* Responsive behaviour. */
+@media(max-width:1100px){
+  .kpi-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  .eng-phase-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .eng-phase-card{min-height:154px;padding:13px}
+}
+@media(max-width:900px){
+  .app-sidebar-shell{flex-basis:190px!important;width:190px!important}
+  .eng-phase-hero{align-items:flex-start;flex-direction:column}
+  .eng-phase-hero-actions{width:100%;justify-content:space-between}
+  .eng-phase-hero-actions .eng-primary{flex:1}
+  .eng-header-details>.eng-popover,.eng-phase-hero .eng-popover{left:0;right:auto}
+  .eng-phase-hero .eng-popover{max-height:220px}
+  .eng-doc-summary{align-items:flex-start;flex-wrap:wrap}
+  .eng-doc-actions{width:100%;justify-content:flex-start;padding-left:28px}
+  .eng-doc-scope>.eng-popover{left:0;right:auto}
+}
+@media(max-width:800px){
+  .kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .analytics-grid{grid-template-columns:1fr!important}
+  .eng-header{grid-template-columns:1fr;align-items:start;gap:14px}
+  .eng-actions{justify-content:flex-start}
+  .eng-summary{grid-template-columns:145px minmax(0,1fr)}
+  .eng-progress-card{padding:14px 13px}
+  .eng-progress-top{display:block}
+  .eng-progress-value{margin-top:9px;font-size:34px}
+  .eng-status-line{display:none}
+  .eng-holdings{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .eng-phase-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .eng-phase-card:nth-child(3n+1) .eng-popover{left:auto;right:0}
+  .eng-phase-card:nth-child(odd) .eng-popover{left:0;right:auto}
+  .eng-phase-card:nth-child(-n+3) .eng-popover{top:auto;bottom:calc(100% + 9px)}
+  .eng-phase-card:nth-child(-n+2) .eng-popover{top:calc(100% + 9px);bottom:auto}
+  .eng-toolstrip{grid-template-columns:1fr}
+  .eng-research-form{grid-template-columns:1fr}
+  .eng-output-visuals{grid-template-columns:1fr}
+}
+@media(max-width:620px){
+  .app-root{height:100vh!important;margin:0;border:0;border-radius:0}
+  .app-sidebar-shell,.eng-project-sidebar{display:none!important}
+  .app-view-shell,.eng-shell{margin:6px!important;border-radius:0!important}
+  .app-main-header,.app-main-content{padding-left:16px!important;padding-right:16px!important}
+  .eng-header,.eng-overview-scroll,.eng-phase-nav,.eng-phase-hero,.eng-tabs,.eng-content{padding-left:16px;padding-right:16px}
+  .eng-actions{justify-content:flex-end}
+  .gen-provider-control{width:100%;justify-content:flex-end}
+  .app-main-header .gen-provider-control{justify-content:flex-start}
+  .eng-header-details>.eng-popover{left:auto;right:0}
+  .eng-primary{flex:1}
+  .eng-workflow-grid{grid-template-columns:1fr}
+  .eng-input-row{grid-template-columns:30px minmax(0,1fr)}
+  .eng-input-meta,.eng-input-actions{grid-column:2}
+  .eng-output-head{flex-direction:column;gap:10px}
+  .eng-output-kpis,.eng-output-doc-grid,.eng-output-charts,.eng-gen-body{grid-template-columns:1fr}
+  .eng-gen-cta .eng-gen-btn{width:100%}
+  .eng-output-panel{min-height:0}
+  .eng-output-action .eng-primary{width:100%}
+}
+@media(max-width:420px){
+  .gen-provider-label{display:none}
+  .gen-provider-switch{width:100%}
+  .gen-provider-option{flex:1}
+}
+@media(max-width:520px){
+  .kpi-grid{grid-template-columns:1fr!important}
+  .eng-summary,.eng-phase-grid{grid-template-columns:1fr}
+  .eng-status-line{display:block}
+  .eng-phase-card .eng-popover{left:0;right:auto;width:100%}
+  .eng-phase-card:nth-child(-n+2) .eng-popover{top:auto;bottom:calc(100% + 9px)}
+  .eng-phase-card:first-child .eng-popover{top:calc(100% + 9px);bottom:auto}
+  .eng-doc-sections{grid-template-columns:1fr}
+  .eng-doc-actions{padding-left:0}
+  .eng-doc-scope>.eng-popover{max-height:200px}
+  .eng-phase-hero .eng-popover{max-height:180px}
+}
