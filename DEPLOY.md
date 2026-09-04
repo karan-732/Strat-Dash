@@ -1,77 +1,38 @@
 # Deploying
 
-Backend goes up first: the console inlines `NEXT_PUBLIC_BACKEND_URL` at build
-time, so it cannot be pointed at the API after the fact without a rebuild.
+The demo build is a single Vercel project. There is nothing else to stand up.
 
-## Why the split
+## Vercel
 
-`POST /api/engagements/{id}/phases/{n}/generate` streams NDJSON for **minutes** —
-eight stages, each one a model call. That does not fit any serverless free tier
-(Vercel functions, Netlify Functions, Cloudflare Workers all cap out far below).
-It needs a long-lived process, which is Render. Vercel only ever serves the
-console's page shells, so its limits never come into play.
+Import the repository, then set **Root Directory: `Frontend`**. Framework,
+build command and Node version are detected from `package.json` and `bun.lock`.
 
-## 1. Backend → Render
+No environment variables are required. The console serves the two seeded
+engagements from `Frontend/src/features/console/fixtures` and holds edits in
+`localStorage`, per browser.
 
-New → Blueprint → this repo. `render.yaml` sets everything except the secrets.
+That is the whole deployment.
 
-Fill these in the dashboard (values are in your local `backend/.env`):
+## What the build actually contains
 
-| Variable | |
-| --- | --- |
-| `TURSO_DATABASE_URL` | `libsql://…` |
-| `TURSO_AUTH_TOKEN` | |
-| `OPENROUTER_API_KEY` | use a key with a **hard credit cap** — see Cost below |
-| `OPENAI_API_KEY` | optional; only used when `provider=openai` |
-| `ALLOWED_ORIGINS` | fill after step 2, then redeploy |
+Verified against a production build driven in Chrome:
 
-Migrations apply automatically on boot via the FastAPI lifespan hook.
-Check `https://<service>.onrender.com/health` and `/docs`.
+- Zero requests to any API or data origin. The only external requests are the
+  Google Fonts stylesheet and its two woff2 files, from `layout.tsx`.
+- No model key, no database credential, no `NEXT_PUBLIC_BACKEND_URL`.
+- 7 static routes, 2 server-rendered engagement routes, 1 route handler.
 
-## 2. Frontend → Vercel
+## Restoring the live backend
 
-Import the repo, then set **Root Directory: `Frontend`**. Framework and build
-command are detected from `package.json`.
+The demo replaced one module. Everything else — the store, the mappers and all
+84 ported components — is untouched.
 
-| Variable | |
-| --- | --- |
-| `NEXT_PUBLIC_BACKEND_URL` | `https://<service>.onrender.com` |
-| `NEXT_PUBLIC_GENERATION_MODEL` | `anthropic/claude-sonnet-5` |
+1. Swap `Frontend/src/lib/backend/client.ts` with `client.live.ts`.
+2. Restore the generation island (`git log --diff-filter=D -- 'Frontend/src/lib/ai/*'`).
+3. Deploy `backend/` — `render.yaml` and `backend/Dockerfile` are still in the
+   repo. Render's free tier handles the minutes-long NDJSON stream; Cloud Run
+   is the better option if a card on file is acceptable.
+4. Set `NEXT_PUBLIC_BACKEND_URL` on Vercel and `ALLOWED_ORIGINS` on the backend.
 
-## 3. Close the loop
-
-Set `ALLOWED_ORIGINS` on Render to the Vercel production URL and redeploy the
-backend. Preview deployments get generated subdomains that will not match —
-add them explicitly if you need previews to reach the API.
-
-## Known limits of the free tiers
-
-**Render spins down after 15 minutes idle**, ~50s to wake. The first "generate"
-of the day stalls. A `/health` ping every 10 minutes keeps it warm and costs
-~744 of the 750 free instance-hours a month — so only one free service.
-
-**512 MB RAM.** Fine for FastAPI, but a large `.xlsx` answer upload parsed by
-openpyxl alongside scraped pages is the thing most likely to push it over.
-
-**Vercel's Hobby plan forbids commercial use.** If this is billed client work,
-it needs Pro. Netlify's free tier permits commercial use if that matters more
-than the DX.
-
-## Before this is genuinely public
-
-**There is no authentication on the API.** No dependency, no key check, no
-login. CORS restricts browsers, not `curl` — anyone with the URL can start a
-generation run.
-
-Two mitigations, in order of how much they buy you:
-
-1. A dedicated OpenRouter key with a hard credit cap. Bounds the damage.
-2. A shared-password gate that issues a signed token the console holds. A
-   secret baked into the frontend bundle is not a secret — it must be exchanged
-   for a token server-side.
-
-## Cost
-
-Every model call is written to `agent_runs` with tokens and cost;
-`GET /api/engagements/{id}` returns the running total. A full six-phase run is
-several dollars. See `Frontend/docs/COST.md`.
+Note that the live backend has **no authentication** and a full six-phase run
+costs several dollars of OpenRouter credit. Use a key with a hard credit cap.

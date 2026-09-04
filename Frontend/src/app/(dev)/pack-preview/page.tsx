@@ -18,7 +18,7 @@ import { useSearchParams } from 'next/navigation';
 import { Suspense, useState } from 'react';
 import { ConsoleSurface } from '@/features/console/ConsoleSurface';
 import { buildViewModel } from '@/features/console/view-model';
-import { DEMO_PACKS, demoEngagement } from '@/features/console/fixtures/demo';
+import { DEMO_PACKS, demoEngagement } from '@/features/console/fixtures';
 import { ACCENT, PACK_KEYS } from '@/lib/playbook/constants';
 import { PHASES } from '@/lib/playbook/phases';
 import { useConsoleStore } from '@/store/console-store';

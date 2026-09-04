@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import '@/styles/globals.css';
+import { DemoBadge } from '@/components/DemoBadge';
 
 export const metadata: Metadata = {
   title: 'Altrd Sprint Console',
@@ -22,7 +23,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       {/* the ported stylesheet keys every surface off body[data-theme] */}
-      <body data-theme="light">{children}</body>
+      <body data-theme="light">
+        {children}
+        <DemoBadge />
+      </body>
     </html>
   );
 }
