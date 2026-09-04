@@ -1,0 +1,7 @@
+/backend
+/docs
+/.next
+*.pdf
+node_modules
+.venv
+__pycache__
